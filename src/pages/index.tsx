@@ -3,10 +3,30 @@ import React, { useEffect, useState } from 'react';
 import styles from '../styles/Home.module.css';
 import VideoPlayer from '../components/VideoPlayer/VideoPlayer';
 
+interface Clip {
+  videoId: string;
+  label: string;
+  streamer: {
+    sourceLink: string;
+    label: string;
+    imageId: string;
+  }
+}
+
 const Home = () => {
-  const [videos, setVideos] = useState<string[]>([]);
+  const [videos, setVideos] = useState<Clip[]>([]);
   const [currentMax, setCurrentMax] = useState('');
   const [currentVideo, setCurrentVideo] = useState(0);
+
+  const parseClip = (clip: Clip): Clip => ({
+    videoId: clip.videoId,
+    label: clip.label,
+    streamer: {
+      sourceLink: clip.streamer.sourceLink,
+      label: clip.streamer.label,
+      imageId: clip.streamer.imageId,
+    },
+  });
 
   useEffect(() => {
     if (currentVideo === videos.length - 6) {
@@ -15,7 +35,7 @@ const Home = () => {
         .then((data) => {
           setVideos([
             ...videos,
-            ...data.map((video: { videoId: string }) => video.videoId),
+            ...data.map(parseClip),
           ]);
 
           setCurrentMax(data[data.length - 1].id);
@@ -33,7 +53,7 @@ const Home = () => {
     fetch('https://api.livestreamfails.com/clips?querySort=new&queryMinScore=500')
       .then((response) => response.json())
       .then((data) => {
-        setVideos(data.map((video: { videoId: string }) => video.videoId));
+        setVideos(data.map(parseClip));
 
         setCurrentMax(data[data.length - 1].id);
       });
