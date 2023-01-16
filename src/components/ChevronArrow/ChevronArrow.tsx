@@ -27,7 +27,7 @@ const ChevronArrow = (props: ChevronArrowProps) => {
     >
       <path
         d="M12 15L16.5 10.5L15.08 9.08L12 12.17L8.92 9.08L7.5 10.5L12 15Z"
-        fill="black"
+        fill="currentColor"
       />
     </svg>
   );

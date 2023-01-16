@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 
 import styles from '../styles/Home.module.css';
 import VideoPlayer from '../components/VideoPlayer/VideoPlayer';
+import SideBar from '../components/SideBar/SideBar';
 
 interface Clip {
   videoId: string;
   label: string;
+  redditScore: number;
   streamer: {
     sourceLink: string;
     label: string;
@@ -20,6 +22,7 @@ const Home = () => {
   const parseClip = (clip: Clip): Clip => ({
     videoId: clip.videoId,
     label: clip.label,
+    redditScore: clip.redditScore,
     streamer: {
       sourceLink: clip.streamer.sourceLink,
       label: clip.streamer.label,
@@ -75,13 +78,19 @@ const Home = () => {
 
   return (
     <div className={styles.container}>
-      <VideoPlayer
-        preloadedPreviousVideo={currentVideo <= 1 ? undefined : videos[currentVideo - 2].videoId}
-        previousVideo={currentVideo === 0 ? undefined : videos[currentVideo - 1].videoId}
-        currentVideo={videos[currentVideo]?.videoId}
-        nextVideo={videos[currentVideo + 1]?.videoId}
-        preloadedNextVideo={videos[currentVideo + 2]?.videoId}
-      />
+      <SideBar
+        streamer={videos[currentVideo]?.streamer.label || ''}
+        videoLabel={videos[currentVideo]?.label || ''}
+        redditScore={videos[currentVideo]?.redditScore || 0}
+      >
+        <VideoPlayer
+          preloadedPreviousVideo={currentVideo <= 1 ? undefined : videos[currentVideo - 2].videoId}
+          previousVideo={currentVideo === 0 ? undefined : videos[currentVideo - 1].videoId}
+          currentVideo={videos[currentVideo]?.videoId}
+          nextVideo={videos[currentVideo + 1]?.videoId}
+          preloadedNextVideo={videos[currentVideo + 2]?.videoId}
+        />
+      </SideBar>
     </div>
   );
 };
