@@ -40,7 +40,7 @@ const Home = () => {
       window.history.replaceState(
         {},
         '',
-        `/?clip=${videos[currentVideo - 1].id}`,
+        `./?clip=${videos[currentVideo - 1].id}`,
       );
     }
 
