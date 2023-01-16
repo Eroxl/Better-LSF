@@ -65,6 +65,8 @@ const Home = () => {
   }, [currentVideo]);
 
   useEffect(() => {
+    if (!router.query) return;
+
     fetch(`https://api.livestreamfails.com/clips?querySort=new&queryMinScore=500&queryAfter=${clipID}`)
       .then((response) => response.json())
       .then((data) => {
