@@ -9,7 +9,6 @@ interface Clip {
   streamer: {
     sourceLink: string;
     label: string;
-    imageId: string;
   }
 }
 
@@ -24,7 +23,6 @@ const Home = () => {
     streamer: {
       sourceLink: clip.streamer.sourceLink,
       label: clip.streamer.label,
-      imageId: clip.streamer.imageId,
     },
   });
 
@@ -78,11 +76,11 @@ const Home = () => {
   return (
     <div className={styles.container}>
       <VideoPlayer
-        preloadedPreviousVideo={currentVideo <= 1 ? undefined : videos[currentVideo - 2]}
-        previousVideo={currentVideo === 0 ? undefined : videos[currentVideo - 1]}
-        currentVideo={videos[currentVideo]}
-        nextVideo={videos[currentVideo + 1]}
-        preloadedNextVideo={videos[currentVideo + 2]}
+        preloadedPreviousVideo={currentVideo <= 1 ? undefined : videos[currentVideo - 2].videoId}
+        previousVideo={currentVideo === 0 ? undefined : videos[currentVideo - 1].videoId}
+        currentVideo={videos[currentVideo].videoId}
+        nextVideo={videos[currentVideo + 1].videoId}
+        preloadedNextVideo={videos[currentVideo + 2].videoId}
       />
     </div>
   );
