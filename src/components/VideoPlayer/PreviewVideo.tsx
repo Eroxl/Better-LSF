@@ -42,7 +42,7 @@ const PreviewVideo = (props: PreviewVideoProps) => {
 
   return (
     <video
-      className={`${styles.video} ${isCurrentVideo || styles.previewVideo}}`}
+      className={`${styles.video} ${isCurrentVideo || styles.previewVideo}`}
       loop
       autoPlay
       ref={videoRef}
