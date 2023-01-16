@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 
 import styles from '../styles/Home.module.css';
 import VideoPlayer from '../components/VideoPlayer/VideoPlayer';
@@ -6,6 +7,7 @@ import SideBar from '../components/SideBar/SideBar';
 
 interface Clip {
   videoId: string;
+  id: string;
   label: string;
   redditScore: number;
   streamer: {
@@ -19,8 +21,12 @@ const Home = () => {
   const [currentMax, setCurrentMax] = useState('');
   const [currentVideo, setCurrentVideo] = useState(0);
 
+  const router = useRouter();
+  const clipID = router.query.clip as string | undefined;
+
   const parseClip = (clip: Clip): Clip => ({
     videoId: clip.videoId,
+    id: clip.id,
     label: clip.label,
     redditScore: clip.redditScore,
     streamer: {
@@ -30,6 +36,14 @@ const Home = () => {
   });
 
   useEffect(() => {
+    if (videos[currentVideo - 1]) {
+      window.history.replaceState(
+        {},
+        '',
+        `/?clip=${videos[currentVideo - 1].id}`,
+      );
+    }
+
     if (currentVideo === videos.length - 6) {
       fetch(`https://api.livestreamfails.com/clips?querySort=new&queryMinScore=500&queryAfter=${currentMax}`)
         .then((response) => response.json())
@@ -51,14 +65,14 @@ const Home = () => {
   }, [currentVideo]);
 
   useEffect(() => {
-    fetch('https://api.livestreamfails.com/clips?querySort=new&queryMinScore=500')
+    fetch(`https://api.livestreamfails.com/clips?querySort=new&queryMinScore=500&queryAfter=${clipID}`)
       .then((response) => response.json())
       .then((data) => {
         setVideos(data.map(parseClip));
 
         setCurrentMax(data[data.length - 1].id);
       });
-  }, []);
+  }, [clipID]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
