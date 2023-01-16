@@ -1,0 +1,8 @@
+# -=- Mac OS X -=-
+.DS_Store
+
+# -=- NPM Packages -=-
+node_modules
+
+# -=- Next.js -=-
+.next

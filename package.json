@@ -1,0 +1,33 @@
+{
+  "name": "better-lsf",
+  "version": "1.0.0",
+  "description": "An updated and optimized live stream fails client.",
+  "main": "index.js",
+  "repository": "https://github.com/Eroxl/Better-LSF",
+  "author": "Eroxl <evan@erox.one>",
+  "license": "AGPLv3",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "eslint": ">=8.0.0",
+    "next": "^13.1.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": ">=4.4"
+  },
+  "devDependencies": {
+    "@types/next": "^9.0.0",
+    "@types/node": "^18.11.18",
+    "@types/react": "^18.0.26",
+    "@typescript-eslint/eslint-plugin": ">=5.43.0",
+    "@typescript-eslint/parser": ">=5.43.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-import": "^2.27.4",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-react": "^7.32.0"
+  }
+}
