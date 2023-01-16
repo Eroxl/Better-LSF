@@ -5,13 +5,31 @@ import VideoPlayer from '../components/VideoPlayer/VideoPlayer';
 
 const Home = () => {
   const [videos, setVideos] = useState<string[]>([]);
+  const [currentMax, setCurrentMax] = useState('');
   const [currentVideo, setCurrentVideo] = useState(0);
+
+  useEffect(() => {
+    if (currentVideo === videos.length - 6) {
+      fetch(`https://api.livestreamfails.com/clips?querySort=new&queryMinScore=500&queryAfter=${currentMax}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setVideos([
+            ...videos,
+            ...data.map((video: { videoId: string }) => video.videoId),
+          ]);
+
+          setCurrentMax(data[data.length - 1].id);
+        });
+    }
+  }, [currentVideo]);
 
   useEffect(() => {
     fetch('https://api.livestreamfails.com/clips?querySort=new&queryMinScore=500')
       .then((response) => response.json())
       .then((data) => {
         setVideos(data.map((video: { videoId: string }) => video.videoId));
+
+        setCurrentMax(data[data.length - 1].id);
       });
   }, []);
 
