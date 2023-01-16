@@ -21,6 +21,12 @@ const Home = () => {
           setCurrentMax(data[data.length - 1].id);
         });
     }
+
+    // ~ Free up memory
+    if (currentVideo >= 250) {
+      setVideos(videos.slice(currentVideo - 200));
+      setCurrentVideo(50);
+    }
   }, [currentVideo]);
 
   useEffect(() => {
