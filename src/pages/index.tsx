@@ -78,9 +78,9 @@ const Home = () => {
       <VideoPlayer
         preloadedPreviousVideo={currentVideo <= 1 ? undefined : videos[currentVideo - 2].videoId}
         previousVideo={currentVideo === 0 ? undefined : videos[currentVideo - 1].videoId}
-        currentVideo={videos[currentVideo].videoId}
-        nextVideo={videos[currentVideo + 1].videoId}
-        preloadedNextVideo={videos[currentVideo + 2].videoId}
+        currentVideo={videos[currentVideo]?.videoId}
+        nextVideo={videos[currentVideo + 1]?.videoId}
+        preloadedNextVideo={videos[currentVideo + 2]?.videoId}
       />
     </div>
   );
