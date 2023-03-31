@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/media-has-caption */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import styles from './VideoPlayer.module.css';
 import ChevronArrow from '../ChevronArrow/ChevronArrow';
@@ -11,6 +11,7 @@ interface VideoPlayerProps {
   currentVideo: string;
   nextVideo: string;
   preloadedNextVideo: string;
+  isVideoLoaded: boolean;
 }
 
 const VideoPlayer = (props: VideoPlayerProps) => {
@@ -20,28 +21,40 @@ const VideoPlayer = (props: VideoPlayerProps) => {
     currentVideo,
     nextVideo,
     preloadedNextVideo,
+    isVideoLoaded,
   } = props;
 
   return (
     <div className={styles.container}>
-      {preloadedPreviousVideo
-        && (
-          <PreviewVideo
-            videoID={preloadedPreviousVideo}
-            key={preloadedPreviousVideo}
-            style={{ display: 'none' }}
-          />
-        )}
-      {previousVideo
-        ? (
-          <PreviewVideo videoID={previousVideo} key={previousVideo} />
-        )
-        : <div className={`${styles.video} ${styles.emptyVideo} ${styles.previewVideo}`} />}
+      {isVideoLoaded && (
+        <>
+          {
+            preloadedPreviousVideo && (
+              <PreviewVideo
+                videoID={preloadedPreviousVideo}
+                key={preloadedPreviousVideo}
+                style={{ display: 'none' }}
+              />
+            )
+          }
+          {
+            previousVideo
+              ? <PreviewVideo videoID={previousVideo} key={previousVideo} />
+              : <div className={`${styles.video} ${styles.emptyVideo} ${styles.previewVideo}`} />
+          }
+        </>
+      )}
+
       <ChevronArrow direction="up" />
       <PreviewVideo videoID={currentVideo} isCurrentVideo key={currentVideo} />
       <ChevronArrow direction="down" />
-      <PreviewVideo videoID={nextVideo} key={nextVideo} />
-      <PreviewVideo videoID={preloadedNextVideo} key={preloadedNextVideo} style={{ display: 'none' }} />
+
+      {isVideoLoaded && (
+        <>
+          <PreviewVideo videoID={nextVideo} key={nextVideo} />
+          <PreviewVideo videoID={preloadedNextVideo} key={preloadedNextVideo} style={{ display: 'none' }} />
+        </>
+      )}
     </div>
   );
 };

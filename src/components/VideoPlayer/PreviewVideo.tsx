@@ -48,6 +48,10 @@ const PreviewVideo = (props: PreviewVideoProps) => {
       ref={videoRef}
       style={style}
       onClick={isCurrentVideo ? pauseVideo : undefined}
+      id={videoID}
+      onLoadedData={() => {
+        document.dispatchEvent(new Event('videoLoaded'));
+      }}
       src={`https://livestreamfails-video-prod.b-cdn.net/video/${videoID}`}
     >
       <source

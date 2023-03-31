@@ -20,6 +20,7 @@ const Home = () => {
   const [videos, setVideos] = useState<Clip[]>([]);
   const [currentMax, setCurrentMax] = useState('');
   const [currentVideo, setCurrentVideo] = useState(0);
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
 
   const router = useRouter();
   const clipID = router.query.clip as string | undefined;
@@ -92,6 +93,20 @@ const Home = () => {
     };
   }, [videos]);
 
+  useEffect(() => {
+    const handleVideoLoaded = () => {
+      setIsVideoLoaded(true);
+
+      document.removeEventListener('videoLoaded', handleVideoLoaded);
+    };
+
+    document.addEventListener('videoLoaded', handleVideoLoaded);
+
+    return () => {
+      document.removeEventListener('videoLoaded', handleVideoLoaded);
+    };
+  }, []);
+
   return (
     <div className={styles.container}>
       <SideBar
@@ -105,6 +120,7 @@ const Home = () => {
           currentVideo={videos[currentVideo]?.videoId}
           nextVideo={videos[currentVideo + 1]?.videoId}
           preloadedNextVideo={videos[currentVideo + 2]?.videoId}
+          isVideoLoaded={isVideoLoaded}
         />
       </SideBar>
     </div>
