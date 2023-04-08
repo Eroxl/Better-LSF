@@ -1,7 +1,8 @@
 /* eslint-disable jsx-a11y/media-has-caption */
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import styles from './VideoPlayer.module.css';
+import PauseIcon from '../PauseIcon/PauseIcon';
 
 interface PreviewVideoProps {
   videoID: string;
@@ -11,18 +12,23 @@ interface PreviewVideoProps {
 
 const PreviewVideo = (props: PreviewVideoProps) => {
   const { videoID, isCurrentVideo, style } = props;
+
+  const [isPaused, setIsPaused] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  const pauseVideo = (e: React.MouseEvent<HTMLVideoElement>) => {
-    if (!(e.target instanceof HTMLVideoElement)) return;
-
-    if (e.target.paused) {
-      e.target.play();
+  useEffect(() => {
+    if (!isCurrentVideo) {
+      setIsPaused(false);
       return;
     }
 
-    e.target.pause();
-  };
+    if (isPaused) {
+      videoRef.current?.pause();
+      return;
+    }
+
+    videoRef.current?.play();
+  }, [isPaused]);
 
   useEffect(() => {
     if (!videoRef.current) return;
@@ -41,24 +47,33 @@ const PreviewVideo = (props: PreviewVideoProps) => {
   }, [videoRef, isCurrentVideo]);
 
   return (
-    <video
-      className={`${styles.video} ${isCurrentVideo || styles.previewVideo}`}
-      loop
-      autoPlay
-      ref={videoRef}
-      style={style}
-      onClick={isCurrentVideo ? pauseVideo : undefined}
-      id={videoID}
-      onLoadedData={() => {
-        document.dispatchEvent(new Event('videoLoaded'));
-      }}
-      src={`https://livestreamfails-video-prod.b-cdn.net/video/${videoID}`}
-    >
-      <source
+    <>
+      <video
+        className={`${styles.video} ${isCurrentVideo || styles.previewVideo}`}
+        loop
+        autoPlay
+        ref={videoRef}
+        style={style}
+        onClick={() => {
+          setIsPaused(!isPaused);
+        }}
+        id={videoID}
+        onLoadedData={() => {
+          document.dispatchEvent(new Event('videoLoaded'));
+        }}
         src={`https://livestreamfails-video-prod.b-cdn.net/video/${videoID}`}
-        type="video/mp4"
-      />
-    </video>
+      >
+        <source
+          src={`https://livestreamfails-video-prod.b-cdn.net/video/${videoID}`}
+          type="video/mp4"
+        />
+      </video>
+      {isPaused && (
+        <PauseIcon
+          setIsPaused={setIsPaused}
+        />
+      )}
+    </>
   );
 };
 
