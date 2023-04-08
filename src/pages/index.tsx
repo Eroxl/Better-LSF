@@ -24,7 +24,6 @@ const Home = () => {
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
 
   const router = useRouter();
-  const clipID = router.query.clip as string | undefined;
 
   const parseClip = (clip: Clip): Clip => ({
     videoId: clip.videoId,
@@ -38,10 +37,6 @@ const Home = () => {
   });
 
   useEffect(() => {
-    if (!router.query) return;
-
-    if (!currentMax && clipID) return;
-
     if (videos[currentVideo - 1]) {
       window.history.replaceState(
         {},
@@ -50,7 +45,7 @@ const Home = () => {
       );
     }
 
-    if (currentVideo === videos.length - 6) {
+    if (videos.length && currentVideo === videos.length - 6) {
       fetch(`https://api.livestreamfails.com/clips?querySort=new&queryMinScore=500&queryAfter=${currentMax}`)
         .then((response) => response.json())
         .then((data) => {
@@ -68,12 +63,14 @@ const Home = () => {
       setVideos(videos.slice(currentVideo - 200));
       setCurrentVideo(50);
     }
-  }, [currentVideo, clipID]);
+  }, [currentVideo]);
 
   useEffect(() => {
-    if (!router.query) return;
+    if (!router.isReady) return;
 
-    if (!clipID) return;
+    if (videos.length) return;
+
+    const clipID = router.query.clip as string | undefined;
 
     fetch(`https://api.livestreamfails.com/clips?querySort=new&queryMinScore=500&queryAfter=${clipID}`)
       .then((response) => response.json())
@@ -82,7 +79,7 @@ const Home = () => {
 
         setCurrentMax(data[data.length - 1].id);
       });
-  }, [clipID]);
+  }, [router.isReady]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
