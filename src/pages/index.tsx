@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import styles from '../styles/Home.module.css';
 import VideoPlayer from '../components/VideoPlayer/VideoPlayer';
 import SideBar from '../components/SideBar/SideBar';
+import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner';
 
 interface Clip {
   videoId: string;
@@ -37,6 +38,10 @@ const Home = () => {
   });
 
   useEffect(() => {
+    if (!router.query) return;
+
+    if (!currentMax && clipID) return;
+
     if (videos[currentVideo - 1]) {
       window.history.replaceState(
         {},
@@ -63,10 +68,12 @@ const Home = () => {
       setVideos(videos.slice(currentVideo - 200));
       setCurrentVideo(50);
     }
-  }, [currentVideo]);
+  }, [currentVideo, clipID]);
 
   useEffect(() => {
     if (!router.query) return;
+
+    if (!clipID) return;
 
     fetch(`https://api.livestreamfails.com/clips?querySort=new&queryMinScore=500&queryAfter=${clipID}`)
       .then((response) => response.json())
@@ -109,6 +116,11 @@ const Home = () => {
 
   return (
     <div className={styles.container}>
+      {
+        !isVideoLoaded && (
+          <LoadingSpinner />
+        )
+      }
       <SideBar
         streamer={videos[currentVideo]?.streamer.label || ''}
         videoLabel={videos[currentVideo]?.label || ''}
