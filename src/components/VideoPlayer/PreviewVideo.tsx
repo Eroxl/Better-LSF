@@ -14,6 +14,7 @@ const PreviewVideo = (props: PreviewVideoProps) => {
   const { videoID, isCurrentVideo, style } = props;
 
   const [isPaused, setIsPaused] = useState(false);
+  const canPlay = useRef(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -26,6 +27,8 @@ const PreviewVideo = (props: PreviewVideoProps) => {
       videoRef.current?.pause();
       return;
     }
+
+    if (!canPlay.current) return;
 
     videoRef.current?.play();
   }, [isPaused]);
@@ -43,7 +46,11 @@ const PreviewVideo = (props: PreviewVideoProps) => {
       return;
     }
 
-    videoRef.current?.pause();
+    try {
+      videoRef.current?.pause();
+    } catch (error) {
+      console.error('Error pausing video', error);
+    }
   }, [videoRef, isCurrentVideo]);
 
   return (
@@ -56,6 +63,7 @@ const PreviewVideo = (props: PreviewVideoProps) => {
         style={style}
         onClick={() => {
           setIsPaused(!isPaused);
+          canPlay.current = true;
         }}
         id={videoID}
         onLoadedData={() => {
