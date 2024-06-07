@@ -1,10 +1,11 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
 import styles from '../styles/Home.module.css';
 import VideoPlayer from '../components/VideoPlayer/VideoPlayer';
 import SideBar from '../components/SideBar/SideBar';
 import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner';
+import Head from 'next/head';
 
 export type Clip = {
   videoId: string;
@@ -112,23 +113,28 @@ const Home = () => {
   }, []);
 
   return (
-    <div className={styles.container}>
-      {
-        !isVideoLoaded && (
-          <LoadingSpinner />
-        )
-      }
-      <SideBar
-        streamer={videos[currentVideo]?.streamer.label || ''}
-        videoLabel={videos[currentVideo]?.label || ''}
-        redditScore={videos[currentVideo]?.redditScore || 0}
-      >
-        <VideoPlayer
-          videos={videos}
-          currentVideo={currentVideo}
-        />
-      </SideBar>
-    </div>
+    <>
+      <Head>
+        <title>Better LSF - An improved Live Stream Fails client</title>
+      </Head>
+      <div className={styles.container}>
+        {
+          !isVideoLoaded && (
+            <LoadingSpinner />
+          )
+        }
+        <SideBar
+          streamer={videos[currentVideo]?.streamer.label || ''}
+          videoLabel={videos[currentVideo]?.label || ''}
+          redditScore={videos[currentVideo]?.redditScore || 0}
+        >
+          <VideoPlayer
+            videos={videos}
+            currentVideo={currentVideo}
+          />
+        </SideBar>
+      </div>
+    </>
   );
 };
 
