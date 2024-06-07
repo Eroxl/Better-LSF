@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 
 import styles from '../styles/Home.module.css';
 import VideoPlayer from '../components/VideoPlayer/VideoPlayer';
 import SideBar from '../components/SideBar/SideBar';
 import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner';
-import Head from 'next/head';
 
 export type Clip = {
   videoId: string;

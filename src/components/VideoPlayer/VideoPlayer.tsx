@@ -2,17 +2,10 @@
 import React from 'react';
 
 import styles from './VideoPlayer.module.css';
-import ChevronArrow from '../ChevronArrow/ChevronArrow';
 import PreviewVideo from './PreviewVideo';
 import { Clip } from '../../pages';
 
 interface VideoPlayerProps {
-  // preloadedPreviousVideo?: string;
-  // previousVideo?: string;
-  // currentVideo: string;
-  // nextVideo: string;
-  // preloadedNextVideo: string;
-  // isVideoLoaded: boolean;
   currentVideo: number,
   videos: Clip[],
 }
@@ -20,7 +13,7 @@ interface VideoPlayerProps {
 const VideoPlayer = (props: VideoPlayerProps) => {
   const {
     videos,
-    currentVideo
+    currentVideo,
   } = props;
 
   return (
@@ -40,9 +33,9 @@ const VideoPlayer = (props: VideoPlayerProps) => {
         videos
           .map((clip, index) => {
             if (
-              currentVideo < index - 2 ||
-              currentVideo > index + 2
-            ) return;
+              currentVideo < index - 2
+              || currentVideo > index + 2
+            ) return undefined;
 
             return (
               <PreviewVideo
@@ -50,7 +43,7 @@ const VideoPlayer = (props: VideoPlayerProps) => {
                 isCurrentVideo={currentVideo === index}
                 key={clip.videoId}
               />
-            )
+            );
           })
       }
     </div>

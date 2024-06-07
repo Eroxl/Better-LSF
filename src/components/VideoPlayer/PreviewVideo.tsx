@@ -56,7 +56,7 @@ const PreviewVideo = (props: PreviewVideoProps) => {
 
   return (
     <>
-      {isCurrentVideo && <ChevronArrow direction='up'/>}
+      {isCurrentVideo && <ChevronArrow direction="up" />}
       <video
         className={`${styles.video} ${isCurrentVideo || styles.previewVideo}`}
         loop
@@ -67,7 +67,7 @@ const PreviewVideo = (props: PreviewVideoProps) => {
           setIsPaused(!isPaused);
           canPlay.current = true;
         }}
-        preload='auto'
+        preload="auto"
         id={videoID}
         onLoadedData={() => {
           if (!isCurrentVideo) return;
@@ -86,7 +86,7 @@ const PreviewVideo = (props: PreviewVideoProps) => {
           setIsPaused={setIsPaused}
         />
       )}
-      {isCurrentVideo && <ChevronArrow direction='down'/>}
+      {isCurrentVideo && <ChevronArrow direction="down" />}
     </>
   );
 };
