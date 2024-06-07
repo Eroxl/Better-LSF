@@ -37,20 +37,21 @@ const VideoPlayer = (props: VideoPlayerProps) => {
         currentVideo === 1 && <div className={`${styles.video} ${styles.emptyVideo} ${styles.previewVideo}`} />
       }
       {
-        videos.map((clip, index) => {
-          if (
-            currentVideo < index - 2 ||
-            currentVideo > index + 2
-          ) return;
+        videos
+          .map((clip, index) => {
+            if (
+              currentVideo < index - 2 ||
+              currentVideo > index + 2
+            ) return;
 
-          return (
-            <PreviewVideo
-              videoID={clip.videoId}
-              isCurrentVideo={currentVideo === index}
-              key={clip.videoId}
-            />
-          )
-        })
+            return (
+              <PreviewVideo
+                videoID={clip.videoId}
+                isCurrentVideo={currentVideo === index}
+                key={clip.videoId}
+              />
+            )
+          })
       }
     </div>
   );

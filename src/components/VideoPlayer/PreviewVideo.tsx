@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import styles from './VideoPlayer.module.css';
 import PauseIcon from '../PauseIcon/PauseIcon';
+import ChevronArrow from '../ChevronArrow/ChevronArrow';
 
 interface PreviewVideoProps {
   videoID: string;
@@ -55,6 +56,7 @@ const PreviewVideo = (props: PreviewVideoProps) => {
 
   return (
     <>
+      {isCurrentVideo && <ChevronArrow direction='up'/>}
       <video
         className={`${styles.video} ${isCurrentVideo || styles.previewVideo}`}
         loop
@@ -82,6 +84,7 @@ const PreviewVideo = (props: PreviewVideoProps) => {
           setIsPaused={setIsPaused}
         />
       )}
+      {isCurrentVideo && <ChevronArrow direction='down'/>}
     </>
   );
 };
