@@ -4,57 +4,54 @@ import React from 'react';
 import styles from './VideoPlayer.module.css';
 import ChevronArrow from '../ChevronArrow/ChevronArrow';
 import PreviewVideo from './PreviewVideo';
+import { Clip } from '../../pages';
 
 interface VideoPlayerProps {
-  preloadedPreviousVideo?: string;
-  previousVideo?: string;
-  currentVideo: string;
-  nextVideo: string;
-  preloadedNextVideo: string;
-  isVideoLoaded: boolean;
+  // preloadedPreviousVideo?: string;
+  // previousVideo?: string;
+  // currentVideo: string;
+  // nextVideo: string;
+  // preloadedNextVideo: string;
+  // isVideoLoaded: boolean;
+  currentVideo: number,
+  videos: Clip[],
 }
 
 const VideoPlayer = (props: VideoPlayerProps) => {
   const {
-    preloadedPreviousVideo,
-    previousVideo,
-    currentVideo,
-    nextVideo,
-    preloadedNextVideo,
-    isVideoLoaded,
+    videos,
+    currentVideo
   } = props;
 
   return (
     <div className={styles.container}>
-      {isVideoLoaded && (
-        <>
-          {
-            preloadedPreviousVideo && (
-              <PreviewVideo
-                videoID={preloadedPreviousVideo}
-                key={preloadedPreviousVideo}
-                style={{ display: 'none' }}
-              />
-            )
-          }
-          {
-            previousVideo
-              ? <PreviewVideo videoID={previousVideo} key={previousVideo} />
-              : <div className={`${styles.video} ${styles.emptyVideo} ${styles.previewVideo}`} />
-          }
-        </>
-      )}
+      {
+        currentVideo === 0 && (
+          <>
+            <div className={`${styles.video} ${styles.emptyVideo} ${styles.previewVideo}`} />
+            <div className={`${styles.video} ${styles.emptyVideo} ${styles.previewVideo}`} />
+          </>
+        )
+      }
+      {
+        currentVideo === 1 && <div className={`${styles.video} ${styles.emptyVideo} ${styles.previewVideo}`} />
+      }
+      {
+        videos.map((clip, index) => {
+          if (
+            currentVideo < index - 2 ||
+            currentVideo > index + 2
+          ) return;
 
-      <ChevronArrow direction="up" />
-      <PreviewVideo videoID={currentVideo} isCurrentVideo key={currentVideo} />
-      <ChevronArrow direction="down" />
-
-      {isVideoLoaded && (
-        <>
-          <PreviewVideo videoID={nextVideo} key={nextVideo} />
-          <PreviewVideo videoID={preloadedNextVideo} key={preloadedNextVideo} style={{ display: 'none' }} />
-        </>
-      )}
+          return (
+            <PreviewVideo
+              videoID={clip.videoId}
+              isCurrentVideo={currentVideo === index}
+              key={clip.videoId}
+            />
+          )
+        })
+      }
     </div>
   );
 };

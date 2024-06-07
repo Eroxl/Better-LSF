@@ -65,6 +65,7 @@ const PreviewVideo = (props: PreviewVideoProps) => {
           setIsPaused(!isPaused);
           canPlay.current = true;
         }}
+        preload='auto'
         id={videoID}
         onLoadedData={() => {
           document.dispatchEvent(new Event('videoLoaded'));

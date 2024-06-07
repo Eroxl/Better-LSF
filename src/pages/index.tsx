@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 
 import styles from '../styles/Home.module.css';
@@ -6,7 +6,7 @@ import VideoPlayer from '../components/VideoPlayer/VideoPlayer';
 import SideBar from '../components/SideBar/SideBar';
 import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner';
 
-interface Clip {
+export type Clip = {
   videoId: string;
   id: string;
   label: string;
@@ -124,12 +124,8 @@ const Home = () => {
         redditScore={videos[currentVideo]?.redditScore || 0}
       >
         <VideoPlayer
-          preloadedPreviousVideo={currentVideo <= 1 ? undefined : videos[currentVideo - 2].videoId}
-          previousVideo={currentVideo === 0 ? undefined : videos[currentVideo - 1].videoId}
-          currentVideo={videos[currentVideo]?.videoId}
-          nextVideo={videos[currentVideo + 1]?.videoId}
-          preloadedNextVideo={videos[currentVideo + 2]?.videoId}
-          isVideoLoaded={isVideoLoaded}
+          videos={videos}
+          currentVideo={currentVideo}
         />
       </SideBar>
     </div>
