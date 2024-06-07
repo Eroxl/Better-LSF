@@ -70,6 +70,8 @@ const PreviewVideo = (props: PreviewVideoProps) => {
         preload='auto'
         id={videoID}
         onLoadedData={() => {
+          if (!isCurrentVideo) return;
+
           document.dispatchEvent(new Event('videoLoaded'));
         }}
         src={`https://livestreamfails-video-prod.b-cdn.net/video/${videoID}`}

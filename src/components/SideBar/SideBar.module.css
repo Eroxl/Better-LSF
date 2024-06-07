@@ -9,6 +9,7 @@
   top: 0;
 
   display: flex;
+  gap: 0.5rem;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
@@ -41,8 +42,62 @@
 .redditScore {
   margin-top: 0.5rem;
   display: flex;
-  gap: 0.25rem;
+  gap: 0.5rem;
 
   font-size: 1rem;
   font-weight: 700;
+}
+
+.redditScore > span {
+  display: flex;
+  align-items: center;
+
+  height: 1em;
+  margin-top: auto;
+  margin-bottom: auto;
+  padding-top: 0.2em;
+}
+
+
+.redditLink {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
+
+  color: white;
+  text-decoration: none;
+
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.redditLink > span {
+  display: flex;
+  align-items: center;
+
+  height: 1em;
+  margin-top: auto;
+  margin-bottom: auto;
+  padding-top: 0.2em;
+}
+
+
+.redditLink > svg {
+  height: 1.25em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.breaker {
+  margin-top: 0.75em;
+  margin-bottom: 0.75em;
+
+  height: 0.1em;
+  width: 100%;
+
+  border-radius: 10px;
+
+  background-color: white;
 }

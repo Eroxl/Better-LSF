@@ -15,7 +15,8 @@ export type Clip = {
   streamer: {
     sourceLink: string;
     label: string;
-  }
+  };
+  redditId: string;
 }
 
 const Home = () => {
@@ -35,6 +36,7 @@ const Home = () => {
       sourceLink: clip.streamer.sourceLink,
       label: clip.streamer.label,
     },
+    redditId: clip.redditId,
   });
 
   useEffect(() => {
@@ -127,6 +129,7 @@ const Home = () => {
           streamer={videos[currentVideo]?.streamer.label || ''}
           videoLabel={videos[currentVideo]?.label || ''}
           redditScore={videos[currentVideo]?.redditScore || 0}
+          redditId={videos[currentVideo]?.redditId || ''}
         >
           <VideoPlayer
             videos={videos}
